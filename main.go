@@ -50,6 +50,16 @@ func init() {
 
 func main() {
 
+	app.listQueues()
+
+	app.createQueue()
+	app.listQueues()
+
+	fmt.Println("SQS")
+}
+
+func (app *DemoApp) listQueues() {
+	fmt.Println("-------------- ListQueues")
 	input := &sqs.ListQueuesInput{}
 
 	result, err := app.client.ListQueues(app.ctx, input)
@@ -58,8 +68,23 @@ func main() {
 	for i, qURL := range result.QueueUrls {
 		fmt.Printf("%d: %s\n", i+1, qURL)
 	}
+}
 
-	fmt.Println("SQS")
+func (app *DemoApp) createQueue() {
+	fmt.Println("-------------- ListQueues")
+
+	input := &sqs.CreateQueueInput{
+		QueueName: &app.queueName,
+		Attributes: map[string]string{
+			"DelaySeconds":           "60",
+			"MessageRetentionPeriod": "3600",
+		},
+	}
+
+	result, err := app.client.CreateQueue(app.ctx, input)
+	logError(err)
+
+	fmt.Println("Queue URL:", *result.QueueUrl)
 }
 
 func logError(err error) {
