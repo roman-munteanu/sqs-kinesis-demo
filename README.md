@@ -21,8 +21,14 @@ go run main.go
 
 ## Brief Overview
 
-TODO
-
+Queue attributes:
++ `QueueName`: name of the queue
++ Attributes:
+    - `DelaySeconds`: delay of the message before being delivered
+    - `VisibilityTimeout`: time in seconds where a message is only visible to a single consumer
++ `QueueUrl`: the URL of the queue to send message to
++ `MessageBody`: should be a string
++ `MaxNumberOfMessages`: the maximum number of messages to retrieve
 
 ## SQS CLI
 
